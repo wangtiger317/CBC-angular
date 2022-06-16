@@ -1,0 +1,25 @@
+ul{
+  padding: 0;
+}
+.tn{
+  margin: 6px;
+}
+.bottom-left {
+  position: absolute;
+  bottom: 8px;
+  right: 16px;
+}
+#item_box{
+  background: #FFF;
+  border-bottom: 4px solid #006AFF;
+  box-shadow: 0 5px 6px rgba(0,0,0,.4);
+  cursor: pointer;
+  margin-bottom: 10px ;
+}
+#item_box .desc {
+  padding:0px 5px;
+}
+#google_map{
+  padding: 10px;
+  box-shadow: 20px  50px lightgray;
+}

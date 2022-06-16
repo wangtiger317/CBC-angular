@@ -1,0 +1,21 @@
+
+<div class="row">
+  <div class="col-12 col-sm-6 col-md-6">
+      <div *ngFor="let image of visibleImages" id="item_box">
+        <img src="{{image.url}}"  alt="picture"  width="100%" height="100%"/>
+        <div class="desc" >
+            <h4>{{image.desc}} <span style="font-size: 16px;margin-left: 20%">{{image.de}}</span></h4>
+            <p>{{image.word}}</p>
+        </div>
+       </div>
+    </div>
+  <div class="col-12 col-sm-6 col-md-6">
+    <div *ngFor="let image of visibleImages" id="item_box">
+      <img src="{{image.urls}}"  alt="picture"  width="100%" height="100%"/>
+      <div class="desc" >
+        <h4>{{image.desc}} <span style="font-size: 16px;margin-left: 20%">{{image.de}}</span></h4>
+        <p>{{image.word}}</p>
+      </div>
+    </div>
+  </div>
+</div>

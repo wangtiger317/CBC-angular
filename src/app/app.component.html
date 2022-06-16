@@ -1,0 +1,106 @@
+<div class="container-float">
+  <div class="row" style="padding-bottom:8px; border-radius:5px;margin-right:0px">
+    <form>
+      <div class="form-row" style="padding:5px;" >
+        <div class="col-md-3" >
+          <input #locSearch type="text" class="form-control" id="searchLoc" name="location" [(ngModel)]="search.location" placeholder="{{trans.address['en']}}">
+        </div>
+        <div class="col-md-2" style="height: 34px;">
+          <select class="form-control" name="bedRoom" [(ngModel)]="search.no_bedrooms" (change)="updateSelect('bed')">
+            <option *ngFor="let ei of searchOption.no_bedrooms" value={{ei.key}}>{{ei.desc[cs.lan]}}</option>
+          </select>
+          <input type="text" name="bedInput" class="inputStyle" [(ngModel)]="search.bedroomInput" (change)="updateSearchInput('bed')"/>
+        </div>
+        <div class="col-md-2" style="height: 34px;">
+          <select class="form-control" name="bathRoom" [(ngModel)]="search.baths" (change)="updateSelect('bath')">
+            <option *ngFor="let ei of searchOption.baths" value={{ei.key}}>{{ei.desc[cs.lan]}}</option>
+          </select>
+          <input type="text" name="brInput" class="inputStyle" [(ngModel)]="search.bathInput" (change)="updateSearchInput('bath')"/>
+        </div>
+        <div class="col-md-2" style="height: 34px;">
+          <select class="form-control" name="price" [(ngModel)]="search.list_price" (change)="updateSelect('price')">
+            <option *ngFor="let ei of searchOption.list_price" value={{ei.key}}>{{ei.desc[cs.lan]}}</option>
+          </select>
+          <input type="text" name="plInput" class="inputStyle"  [(ngModel)]="search.priceInput" (change)="updateSearchInput('price')"/>
+          <!--
+          <div style="z-index:100;width:100%;display:block;position:absolute;" *ngIf="customizePriceFlag">
+              <div *ngFor="let ei of searchOption.list_price" class="theOption">{{ei.desc[cs.lan]}}</div>
+              <input type="text" name="minPrice" placeholder="Min Price">
+              <input type="text" name="maxPrice" placeholder="Max Price">
+            </div>
+          -->
+        </div>
+        <div class="col-md-2">
+          <select class="form-control" name="propertyType" [(ngModel)]="search.prop_type" (change)="updateSelect('x')">
+            <option *ngFor="let ei of searchOption.prop_type" value={{ei.key}}>{{ei.desc[cs.lan]}}</option>
+          </select>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="row" style="margin-right: 0px;">
+    <div class="col-md-3 theSelection fade in text-center" *ngIf="search.location">{{search.location}}&emsp;&emsp;
+      <span class="text-right glyphicon glyphicon-remove-circle cancelCriteria" (click)="search.location=null"></span>
+    </div>
+    <div class="col-md-2 theSelection fade in text-center" *ngIf="search.no_bedrooms&&(search.no_bedrooms!='0')">{{getBedrooms()}}&emsp;&emsp;
+      <span class="text-right glyphicon glyphicon-remove-circle cancelCriteria" (click)="search.no_bedrooms='0'"></span>
+    </div>
+    <div class="col-md-2 theSelection fade in text-center" *ngIf="search.baths&&(search.baths!='0')">{{getBath()}}&emsp;&emsp;
+      <span class="text-right glyphicon glyphicon-remove-circle cancelCriteria" (click)="search.baths='0'"></span>
+    </div>
+    <div class="col-md-2 theSelection fade in text-center" *ngIf="search.list_price&&(search.list_price!='0')">{{getPrice()}}&emsp;&emsp;
+      <span class="text-right glyphicon glyphicon-remove-circle cancelCriteria" (click)="search.list_price='0'"></span>
+    </div>
+    <div class="col-md-2 theSelection fade in text-center" *ngIf="search.prop_type">{{getPropType()}}&emsp;&emsp;
+      <span class="text-right glyphicon glyphicon-remove-circle cancelCriteria" (click)="search.prop_type=''"></span>
+    </div>
+  </div>
+
+  <div class="row" style="margin-right:0px;">
+    <div class="col-md-12" style="padding-left:0px;padding-right:0px">
+      <div class="alert alert-danger" *ngIf="exceedFlag.maxCount" style="margin-bottom:0px">{{trans.exceedMaxCountAlert[cs.lan]}}</div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-7" style="padding-left:0px;padding-right:0px" id="google_map">
+      <agm-map #theMap [latitude]="mapParam.center.lat" [longitude]="mapParam.center.lng" [zoom]="mapParam.zoom" [disableDefaultUI]="false"
+        [zoomControl]="true" (mapClick)="mapClicked($event)" (idle)="updateSelect('x')" (boundsChange)="boundsChange($event)"
+        fullscreenControl = "true" streetViewControl="false">
+        <agm-marker *ngFor="let m of markers.list; let i = index" (markerClick)="clickedMarker(m.label, i)" (mouseOver)="hoverMarker(m.label,i)"
+          (mouseOut)="mouseOutMarker(i,'marker')" [latitude]="m.lat" [longitude]="m.lng" [label]="m.label" [markerDraggable]="m.draggable"
+          (dragEnd)="markerDragEnd(m, $event)" style="border-radius:15px">
+          <agm-info-window (mouseOut)="mouseOutMarker(i,'info')" disableAutoPan="true">
+            <app-info-win [list_no]="m.list_no" [desc]="m.desc"></app-info-win>
+          </agm-info-window>
+        </agm-marker>
+      </agm-map>
+    </div>
+    <div class="col-12 col-sm-6 col-md-5 " style="height: 800px;overflow-y: scroll;">
+<!--      <div class="col-12 col-sm-6 col-md-6 ">-->
+        <app-image></app-image>
+<!--      </div>-->
+<!--      <div class="col-12 col-sm-6 col-md-6">-->
+
+<!--      </div>-->
+    </div>
+
+
+    <div class="modal fade" id="myModal" #iModal tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                {{trans.exceedMaxCountAlert['en']}}
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+  </div>
+
+</div>

@@ -1,0 +1,55 @@
+agm-map {
+    height: 800px;
+    width: 100%;
+
+  }
+.searchBar{
+  background-color: rgb(250, 243, 243);
+  padding-top: 3px;
+  padding-bottom: 5px;
+  margin-left: 1px;
+  margin-right: 1px;
+}
+.theSelection{
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #dbbcc1;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  margin:1px;
+}
+.cancelCriteria{
+  cursor: pointer;
+}
+.theOption{
+  font-weight: normal;
+    display: block;
+    white-space: pre;
+    min-height: 1.2em;
+    padding: 0px 2px 1px;
+    background-color: white;
+}
+
+.theOption:hover{
+  background-color: blue;
+}
+
+.inputStyle{
+  display:'none';position:relative;top:-27px;width:85%;margin-left:5px;padding-left:8px;border:0px;
+}
+
+@media (max-width: 576px){
+  #google_map{
+    display: none;
+  }
+}
+.image{
+  height: 500px;
+  overflow-y: scroll;
+}
+/*#google_map{*/
+/*  box-shadow: 2px 3px #888888;*/
+
+/*}*/
+
+
